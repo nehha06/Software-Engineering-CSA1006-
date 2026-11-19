@@ -1,0 +1,6 @@
+# Booking Module
+
+- Displays available campus facilities.
+- Allows students and faculty to request bookings.
+- Allows authorized managers to approve or reject requests.
+- Prevents overlapping approved bookings.
