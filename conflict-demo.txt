@@ -1,1 +1,13 @@
-Booking branch: Facility booking requests and approval workflow.
+# Smart Campus Module Integration
+
+## Booking Module
+- Facility booking requests
+- Manager approval and rejection
+- Booking overlap validation
+
+## Maintenance Module
+- Facility issue reporting
+- Technician assignment
+- Inspection and repair tracking
+
+Both modules are integrated into the Smart Campus platform.
