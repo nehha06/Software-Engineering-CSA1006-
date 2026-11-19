@@ -1,0 +1,6 @@
+# Maintenance Module
+
+- Allows users to report facility issues.
+- Assigns maintenance tickets to technicians.
+- Tracks inspection and repair progress.
+- Allows authorized managers to close resolved tickets.
