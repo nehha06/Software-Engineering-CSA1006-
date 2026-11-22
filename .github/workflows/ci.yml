@@ -25,11 +25,39 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
+          pip install pytest pip-audit
+
+      - name: Python compilation check
+        working-directory: SmartCampus_Complete
+        run: python -m compileall -q backend tests
+
+      - name: Dependency security audit
+        working-directory: SmartCampus_Complete
+        run: pip-audit -r requirements.txt
 
       - name: Run automated tests
         working-directory: SmartCampus_Complete
         run: python -m pytest tests/ -v
 
-      - name: Build Docker image
+      - name: Build versioned Docker image
         run: docker build -t smartcampus:${{ github.sha }} ./SmartCampus_Complete
+
+      - name: Start isolated Docker container
+        run: docker run -d --name smartcampus-smoke -p 5000:5000 smartcampus:${{ github.sha }}
+
+      - name: API health smoke test
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:5000/api/health; then
+              echo "API health check passed."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API health check failed."
+          docker logs smartcampus-smoke
+          exit 1
+
+      - name: Clean up test container
+        if: always()
+        run: docker rm -f smartcampus-smoke || true
